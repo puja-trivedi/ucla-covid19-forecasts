@@ -59,7 +59,7 @@ def add_fluction(x, a=0.3, b=-0.5):
 def write_val_to_json(params_allregion, write_file_name_all, write_file_name_best, limit=.5e-5):
 
     dict_file = json.dumps(params_allregion)
-    f = open(write_file_name_all,"w")
+    f = open(write_file_name_all,"w+")
     f.write(dict_file)
     f.close()
     params_allregion_best = {}

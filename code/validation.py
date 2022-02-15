@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 import json
 import argparse
 import us
+import os
 
 from model import *
 from data import *
@@ -108,10 +109,17 @@ def get_county_list(cc_limit=200, pop_limit=50000):
     return county_list
 
 
+def check_dir(path):
+    # Check whether the specified path exists or not
+    isExist = os.path.exists(path)
+
+    if not isExist:
+        # Create a new directory because it does not exist 
+        os.makedirs(path)
+        #print("The new directory is created!")
+
 
 if __name__ == '__main__':
-    
-    
     # initial the dataloader, get region list 
     # get the directory of output validation files
     if args.level == "state":
@@ -399,12 +407,11 @@ if __name__ == '__main__':
         best_log = np.array(val_log)[np.argmin(np.array(val_log)[:,2]),:]
         print("Best Val loss: ", best_log[2], " Last CC: ", best_log[3], " Last FC: ", best_log[4], " Max inc Confirm: ", best_log[5] )
 
+    # check if write_dir exists, otherwise create it 
+    check_dir(write_dir)
+
     # write all validation results into files
     write_file_name_all = write_dir + "val_params_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
     write_file_name_best = write_dir + "val_params_best_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
 
-    write_val_to_json(params_allregion, write_file_name_all, write_file_name_best)
-
-
-            
-        
+    write_val_to_json(params_allregion, write_file_name_all, write_file_name_best)     
