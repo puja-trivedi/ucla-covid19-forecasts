@@ -25,7 +25,7 @@ parser.add_argument('--nation', default = "default",
                     help='nation')
 parser.add_argument('--county', default = "default",
                     help='county')
-parser.add_argument('--dataset', default = "NYtimes",
+parser.add_argument('--dataset', default = "JHU",
                     help='nytimes')
 parser.add_argument('--popin', type=float, default = 0,
                     help='popin')
@@ -410,8 +410,17 @@ if __name__ == '__main__':
     # check if write_dir exists, otherwise create it 
     check_dir(write_dir)
 
+    # extension to create unique files name 
+    file_name = "_" + args.level
+    if(args.county != "default"):
+        file_name += ("_" + args.county)
+    if(args.state != "default"):
+        file_name += ("_" + args.state)
+    if(args.nation != "default"):
+        file_name += ("_" + args.nation)
+
     # write all validation results into files
-    write_file_name_all = write_dir + "val_params_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
-    write_file_name_best = write_dir + "val_params_best_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
+    write_file_name_all = write_dir + "val_params_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + file_name
+    write_file_name_best = write_dir + "val_params_best_" + "END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + file_name
 
     write_val_to_json(params_allregion, write_file_name_all, write_file_name_best)     

@@ -22,7 +22,9 @@ parser.add_argument('--state', default = "default",
                     help='state')
 parser.add_argument('--nation', default = "default",
                     help='nation')
-parser.add_argument('--dataset', default = "NYtimes",
+parser.add_argument('--county', default = "default",
+                    help='county')
+parser.add_argument('--dataset', default = "JHU",
                     help='nytimes')
 parser.add_argument('--popin', type=float, default = 0,
                     help='popin')
@@ -130,9 +132,18 @@ elif args.level == "nation":
         region_list = [args.nation]
         val_dir = "val_results_world/test"
 
-json_file_name = val_dir + args.dataset + "_" + "val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
+# extension to create unique files name 
+file_name = "_" + args.level
+if(args.county != "default"):
+    file_name += ("_" + args.county)
+if(args.state != "default"):
+    file_name += ("_" + args.state)
+if(args.nation != "default"):
+    file_name += ("_" + args.nation)
+
+json_file_name = val_dir + args.dataset + "_" + "val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + file_name
 if not os.path.exists(json_file_name):
-    json_file_name = val_dir + "JHU" + "_" + "val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
+    json_file_name = val_dir + "JHU" + "_" + "val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + file_name
 
 
 
@@ -408,5 +419,5 @@ for region in region_list:
 
 
 result = pd.concat(frame)
-save_name = pred_dir + "pred_" + args.level + "_END_DATE_" + args.END_DATE + "_PRED_START_DATE_" + PRED_START_DATE + ".csv"
+save_name = pred_dir + "pred" + file_name + "_END_DATE_" + args.END_DATE + "_PRED_START_DATE_" + PRED_START_DATE + ".csv"
 result.to_csv(save_name, index=False)
