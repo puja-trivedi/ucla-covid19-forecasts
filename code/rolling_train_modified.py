@@ -49,7 +49,7 @@ def train(model, init, prev_params, train_data, reg=0, lag=0):
     return optimal.x, optimal.fun
 
 
-def rolling_train(model, init, train_data, new_sus, pop_in=1/500):
+def rolling_train(model, init, train_data, new_sus, pop_in=0): # pop_in=1/500
 
     # train multiple models in a rolling manner, the susceptible and exposed populations will be transfered to the next period as initialization
 
@@ -101,7 +101,7 @@ def rolling_train(model, init, train_data, new_sus, pop_in=1/500):
     
     return params_all, loss_all 
 
-def rolling_prediction(model, init, params_all, train_data, new_sus, pred_range, pop_in=1/500, daily_smooth=False):
+def rolling_prediction(model, init, params_all, train_data, new_sus, pred_range, pop_in=0, daily_smooth=False): #pop_in=1/500
     lag = 0
     model.reset()
     ind = 0
@@ -255,9 +255,9 @@ if __name__ == '__main__':
 
     model = Learner_SuEIR(N=N, E_0=E, I_0=data_confirm[0], R_0=data_fatality[0], a=a, decay=decay)
 
-    params_all, loss_all = rolling_train(model, init, train_data, new_sus=N/2)
+    params_all, loss_all = rolling_train(model, init, train_data, new_sus=0) #new_sus=N/2 (originally)
     
-    pred_confirm, pred_fatality, _ = rolling_prediction(model, init, params_all, train_data, new_sus=N/2, pred_range=7)
+    pred_confirm, pred_fatality, _ = rolling_prediction(model, init, params_all, train_data, new_sus=0, pred_range=7) #new_sus=N/2 (originally)
     print(np.diff(pred_confirm))
     print (pred_confirm)
 

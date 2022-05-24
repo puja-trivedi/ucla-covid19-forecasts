@@ -25,7 +25,7 @@ parser.add_argument('--nation', default = "default",
 parser.add_argument('--county', default = "default",
                     help='county')
 parser.add_argument('--dataset', default = "JHU",
-                    help='nytimes')
+                    help='jhu')
 parser.add_argument('--popin', type=float, default = 0,
                     help='popin')
 args = parser.parse_args()
@@ -417,7 +417,20 @@ for region in region_list:
     pred_data=pred_data.reset_index().rename(columns={"index": "Date"})
     frame.append(pred_data[pred_data['Date']>=datetime.strptime(PRED_START_DATE,"%Y-%m-%d")])
 
+def check_dir(path):
+    # Check whether the specified path exists or not
+    isExist = os.path.exists(path)
+
+    if not isExist:
+        # Create a new directory because it does not exist 
+        os.makedirs(path)
+        #print("The new directory is created!")
+
 
 result = pd.concat(frame)
+
+# check if pred_dir exists 
+check_dir(pred_dir)
+
 save_name = pred_dir + "pred" + file_name + "_END_DATE_" + args.END_DATE + "_PRED_START_DATE_" + PRED_START_DATE + ".csv"
 result.to_csv(save_name, index=False)

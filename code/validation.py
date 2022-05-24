@@ -26,7 +26,7 @@ parser.add_argument('--nation', default = "default",
 parser.add_argument('--county', default = "default",
                     help='county')
 parser.add_argument('--dataset', default = "JHU",
-                    help='nytimes')
+                    help='jhu')
 parser.add_argument('--popin', type=float, default = 0,
                     help='popin')
 args = parser.parse_args()

@@ -1,0 +1,28 @@
+STEPS TO GET FORECASTS: 
+
+1. run validation_single.py
+Depending on the variant you are forecasting:  
+- change start_date (line 183)
+- change base_date (line 197)
+
+2. run generate_predictions_single.py 
+Depending on the variant you are forecasting:  
+- change start_date (line 165)
+- change base_date (line 175)
+
+############################################################################################
+
+STEPS TO PLOT FORECASTS:
+1. run get_historical_data.py
+
+2. run add_daily_cases.py
+
+3. run plot_pred_vs_obs_single.py
+- change hist (line 10)
+- change pred (line 11)
+- change title for plot#1 (spefically the variant name and state name) (line 52)
+- change file name used to save plot#1 (line 63)
+- change title for plot#2 (spefically the variant name and state name) (line 106)
+- change file name used to save plot#2 (line 117)
+- change title for plot#3 (spefically the variant name and state name) (line 137)
+- change file name used to save plot#3 (line 148)

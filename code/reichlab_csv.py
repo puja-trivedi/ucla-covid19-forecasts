@@ -11,10 +11,14 @@ from rolling_train_modified import *
 from datetime import timedelta, datetime
 
 parser = argparse.ArgumentParser(description='validation of prediction performance for all states')
-parser.add_argument('--END_DATE', default = "default",
+parser.add_argument('-e', '--END_DATE', default = "default",
                     help='end date for training models')
-parser.add_argument('--VAL_END_DATE', default = "default",
+parser.add_argument('-v', '--VAL_END_DATE', default = "default",
                     help='end date for training models')
+parser.add_argument('-p', '--PRED_DATE', default = "default",
+                    help='start date for predictions')
+parser.add_argument('-s', '--FIRST_SAT', default = "default",
+                    help='date of first saturday included in the predictions')
 args = parser.parse_args()
 PRED_START_DATE = args.VAL_END_DATE
 
@@ -68,11 +72,11 @@ north_cal = ["Santa Clara", "San Mateo", "Alameda", "Contra Costa", "Sacramento"
 
 
 
-pred_start_date = "2021-09-19"
+pred_start_date = args.PRED_DATE
 
 write_file_name = pred_start_date+ "-UCLA-SuEIR_state.csv"
 
-Sat_list = [(pd.to_datetime("2021-09-25") + timedelta(days=i*7)).strftime("%Y-%m-%d") for i in range(200)]
+Sat_list = [(pd.to_datetime(args.FIRST_SAT) + timedelta(days=i*7)).strftime("%Y-%m-%d") for i in range(200)]
 
 data = JHU_US(level="states")
 nonstate_list = ["American Samoa", "Diamond Princess", "Grand Princess", "Virgin Islands", "Northern Mariana Islands", "vermont"]
@@ -103,7 +107,7 @@ for state in state_list:
         a, decay = FR_nation[nation]
         reopen_flag = True 
 
-        json_file_name = "val_results_world/test" + "JHU" + "_val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
+        json_file_name = "val_results_world/test" + "JHU" + "_val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + "_nation_US"
         with open(json_file_name, 'r') as f:           
             NE0_region = json.load(f)
         N, E_0 = NE0_region[state][0], NE0_region[state][1]
@@ -139,7 +143,7 @@ for state in state_list:
         # json_file_name = "val_results_state/" + args.dataset + "_val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
         # with open(json_file_name, 'r') as f:           
         #     NE0_region = json.load(f)
-        json_file_name = "val_results_state/" + "JHU" + "_val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE
+        json_file_name = "val_results_state/" + "JHU" + "_val_params_best_END_DATE_" + args.END_DATE + "_VAL_END_DATE_" + args.VAL_END_DATE + "_state"
 
         with open(json_file_name, 'r') as f:           
             NE0_region = json.load(f)
